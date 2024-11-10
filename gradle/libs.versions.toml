@@ -12,6 +12,7 @@ navigationFragment = "2.8.3"
 navigationUi = "2.8.3"
 
 [libraries]
+mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version = "3.1.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
