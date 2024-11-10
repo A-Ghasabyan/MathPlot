@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "664238109061",
+    "project_id": "mathplot",
+    "storage_bucket": "mathplot.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664238109061:android:634a98963f315ad58154ec",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALRzwlqqht0Ax8kmcdywJYOWIrDint1ag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

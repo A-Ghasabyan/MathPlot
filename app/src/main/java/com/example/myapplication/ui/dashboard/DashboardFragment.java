@@ -28,21 +28,15 @@ import java.util.List;
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
+    private DashboardViewModel dashboardViewModel;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFunctionDialog();
-            }
-        });
+        binding.fab.setOnClickListener(view -> showFunctionDialog());
 
         return root;
     }
@@ -51,22 +45,18 @@ public class DashboardFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Function");
 
-        // Create and set up the AutoCompleteTextView for search functionality
         AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(getContext());
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.functions_array));
         autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(1);  // Start filtering after the first character
+        autoCompleteTextView.setThreshold(1);
 
         builder.setView(autoCompleteTextView);
 
-        builder.setPositiveButton("Plot", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String selectedFunction = autoCompleteTextView.getText().toString();
-                if (!selectedFunction.isEmpty()) {
-                    plotFunctionInDialog(selectedFunction);
-                }
+        builder.setPositiveButton("Plot", (dialog, which) -> {
+            String selectedFunction = autoCompleteTextView.getText().toString();
+            if (!selectedFunction.isEmpty()) {
+                plotFunctionInDialog(selectedFunction);
             }
         });
 
@@ -76,17 +66,10 @@ public class DashboardFragment extends Fragment {
     }
 
     private void plotFunctionInDialog(String function) {
-        List<Entry> entries = new ArrayList<>();
-        for (float x = -10; x <= 10; x += 0.1f) {
-            float y = evaluateFunction(function, x);
-            entries.add(new Entry(x, y));
-        }
-
-        LineDataSet dataSet = new LineDataSet(entries, "y = " + function);
-        dataSet.setColor(R.color.purple_500);
-        dataSet.setLineWidth(2f);
-        LineData lineData = new LineData(dataSet);
-
+        LineData lineData = dashboardViewModel.generateLineData(
+                function,
+                getResources().getColor(R.color.purple_500, null)
+        );
         Dialog(lineData, function);
     }
 
@@ -118,9 +101,7 @@ public class DashboardFragment extends Fragment {
         chart.setData(lineData);
         chart.invalidate();
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                500, 400);
-
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(500, 400);
         params.leftMargin = offsetX;
         params.topMargin = offsetY;
         frameLayout.setLayoutParams(params);
@@ -162,16 +143,6 @@ public class DashboardFragment extends Fragment {
                 return true;
             }
         });
-    }
-
-    private float evaluateFunction(String function, float x) {
-        if (function.equals("x^3")) {
-            return x * x * x;
-        } else if (function.equals("sin(x)")) {
-            return (float) Math.sin(x);
-        } else {
-            return 0;
-        }
     }
 
     @Override
