@@ -8,8 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -51,22 +51,22 @@ public class DashboardFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Function");
 
-        Spinner functionSpinner = new Spinner(getContext());
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getContext(),
-                R.array.functions_array,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        functionSpinner.setAdapter(adapter);
+        // Create and set up the AutoCompleteTextView for search functionality
+        AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(getContext());
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.functions_array));
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setThreshold(1);  // Start filtering after the first character
 
-        builder.setView(functionSpinner);
+        builder.setView(autoCompleteTextView);
 
         builder.setPositiveButton("Plot", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String selectedFunction = functionSpinner.getSelectedItem().toString();
-                plotFunctionInDialog(selectedFunction);
+                String selectedFunction = autoCompleteTextView.getText().toString();
+                if (!selectedFunction.isEmpty()) {
+                    plotFunctionInDialog(selectedFunction);
+                }
             }
         });
 
@@ -109,6 +109,9 @@ public class DashboardFragment extends Fragment {
         dialog.setOnDismissListener(dialogInterface -> createWindowOnDashboard(lineData, function));
     }
 
+    private int offsetX = 0;
+    private int offsetY = 0;
+
     private void createWindowOnDashboard(LineData lineData, String function) {
         FrameLayout frameLayout = new FrameLayout(getContext());
         LineChart chart = new LineChart(getContext());
@@ -116,12 +119,20 @@ public class DashboardFragment extends Fragment {
         chart.invalidate();
 
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                500, 300);
+                500, 400);
+
+        params.leftMargin = offsetX;
+        params.topMargin = offsetY;
         frameLayout.setLayoutParams(params);
 
         frameLayout.addView(chart);
-
         binding.dashboardLayout.addView(frameLayout);
+
+        offsetX += 520;
+        if (offsetX + 500 > binding.dashboardLayout.getWidth()) {
+            offsetX = 0;
+            offsetY += 420;
+        }
 
         makeDraggable(frameLayout);
     }
@@ -154,9 +165,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private float evaluateFunction(String function, float x) {
-        if (function.equals("x^2")) {
-            return x * x;
-        } else if (function.equals("x^3")) {
+        if (function.equals("x^3")) {
             return x * x * x;
         } else if (function.equals("sin(x)")) {
             return (float) Math.sin(x);
