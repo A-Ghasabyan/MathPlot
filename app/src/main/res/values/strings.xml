@@ -3,4 +3,9 @@
     <string name="title_account">Account</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_quiz">Quiz</string>
+    <string-array name="functions_array">
+        <item>x^2</item>
+        <item>x^3</item>
+        <item>sin(x)</item>
+    </string-array>
 </resources>

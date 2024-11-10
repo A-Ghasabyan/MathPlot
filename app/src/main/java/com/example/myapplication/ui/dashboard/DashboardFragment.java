@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -48,19 +49,24 @@ public class DashboardFragment extends Fragment {
 
     private void showFunctionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Enter Function");
+        builder.setTitle("Select Function");
 
-        final EditText input = new EditText(getContext());
-        input.setHint("e.g., x^2");
-        builder.setView(input);
+        Spinner functionSpinner = new Spinner(getContext());
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.functions_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        functionSpinner.setAdapter(adapter);
+
+        builder.setView(functionSpinner);
 
         builder.setPositiveButton("Plot", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String function = input.getText().toString();
-                if (!function.isEmpty()) {
-                    plotFunctionInDialog(function);
-                }
+                String selectedFunction = functionSpinner.getSelectedItem().toString();
+                plotFunctionInDialog(selectedFunction);
             }
         });
 
@@ -70,7 +76,6 @@ public class DashboardFragment extends Fragment {
     }
 
     private void plotFunctionInDialog(String function) {
-        // Create a normal-sized chart for the dialog
         List<Entry> entries = new ArrayList<>();
         for (float x = -10; x <= 10; x += 0.1f) {
             float y = evaluateFunction(function, x);
@@ -82,11 +87,10 @@ public class DashboardFragment extends Fragment {
         dataSet.setLineWidth(2f);
         LineData lineData = new LineData(dataSet);
 
-        // Display in the dialog
-        showFullSizeGraphDialog(lineData, function);
+        Dialog(lineData, function);
     }
 
-    private void showFullSizeGraphDialog(LineData lineData, String function) {
+    private void Dialog(LineData lineData, String function) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_chart, null);
 
@@ -154,6 +158,8 @@ public class DashboardFragment extends Fragment {
             return x * x;
         } else if (function.equals("x^3")) {
             return x * x * x;
+        } else if (function.equals("sin(x)")) {
+            return (float) Math.sin(x);
         } else {
             return 0;
         }
