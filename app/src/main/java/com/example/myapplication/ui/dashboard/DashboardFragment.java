@@ -3,13 +3,17 @@ package com.example.myapplication.ui.dashboard;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,7 +27,9 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardFragment extends Fragment {
 
@@ -32,7 +38,6 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
-
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -45,35 +50,59 @@ public class DashboardFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Function");
 
-        AutoCompleteTextView autoCompleteTextView = new AutoCompleteTextView(getContext());
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.functions_array));
-        autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setThreshold(1);
+        String[] displayNames = getResources().getStringArray(R.array.functions_display_names);
+        String[] formulas = getResources().getStringArray(R.array.functions_formulas);
 
-        builder.setView(autoCompleteTextView);
+        Map<String, String> functionMap = new HashMap<>();
+        for (int i = 0; i < displayNames.length; i++) {
+            functionMap.put(displayNames[i], formulas[i]);
+        }
 
-        builder.setPositiveButton("Plot", (dialog, which) -> {
-            String selectedFunction = autoCompleteTextView.getText().toString();
-            if (!selectedFunction.isEmpty()) {
-                plotFunctionInDialog(selectedFunction);
+        List<Map.Entry<String, String>> functionList = new ArrayList<>(functionMap.entrySet());
+
+        FunctionAdapter adapter = new FunctionAdapter(getContext(), functionList);
+
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_function_search, null);
+        EditText searchEditText = dialogView.findViewById(R.id.search_edit_text);
+        ListView listView = dialogView.findViewById(R.id.function_list_view);
+        listView.setAdapter(adapter);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
-        builder.setNegativeButton("Cancel", null);
-
+        builder.setView(dialogView);
+        builder.setNegativeButton("Close", null);
         builder.show();
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Map.Entry<String, String> selectedFunction = adapter.getItem(position);
+            if (selectedFunction != null) {
+                String displayName = selectedFunction.getKey();
+                String formula = selectedFunction.getValue();
+                plotFunctionInDialog(formula, displayName);
+            }
+        });
     }
 
-    private void plotFunctionInDialog(String function) {
+    private void plotFunctionInDialog(String formula, String displayName) {
         LineData lineData = dashboardViewModel.generateLineData(
-                function,
+                formula,
                 getResources().getColor(R.color.purple_500, null)
         );
-        Dialog(lineData, function);
+        showChartDialog(lineData, displayName);
     }
 
-    private void Dialog(LineData lineData, String function) {
+    private void showChartDialog(LineData lineData, String displayName) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_chart, null);
 
@@ -83,13 +112,12 @@ public class DashboardFragment extends Fragment {
 
         AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(dialogView)
-                .setTitle("Graph: y = " + function)
+                .setTitle("Graph: " + displayName)
                 .setNegativeButton("Close", null)
                 .create();
 
         dialog.show();
-
-        dialog.setOnDismissListener(dialogInterface -> createWindowOnDashboard(lineData, function));
+        dialog.setOnDismissListener(dialogInterface -> createWindowOnDashboard(lineData, displayName));
     }
 
     private int offsetX = 0;

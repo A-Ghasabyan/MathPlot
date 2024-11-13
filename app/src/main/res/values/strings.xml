@@ -3,8 +3,13 @@
     <string name="title_account">Account</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_quiz">Quiz</string>
-    <string-array name="functions_array">
-        <item>x^3</item>
+    <string-array name="functions_display_names">
+        <item>Parabola</item>
+        <item>Sine Wave</item>
+    </string-array>
+    <string-array name="functions_formulas">
+        <item>x^2</item>
         <item>sin(x)</item>
     </string-array>
+
 </resources>
