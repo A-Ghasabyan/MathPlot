@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">MathPlot</string>
     <string name="title_account">Account</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_quiz">Quiz</string>
