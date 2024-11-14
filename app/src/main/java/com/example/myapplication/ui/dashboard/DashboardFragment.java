@@ -102,10 +102,10 @@ public class DashboardFragment extends Fragment {
                 formula,
                 getResources().getColor(R.color.purple_500, null)
         );
-        showChartDialog(lineData, displayName);
+        showChartDialog(lineData, displayName, true);
     }
 
-    private void showChartDialog(LineData lineData, String displayName) {
+    private void showChartDialog(LineData lineData, String displayName, boolean addToDashboard) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_chart, null);
 
@@ -120,7 +120,9 @@ public class DashboardFragment extends Fragment {
                 .create();
 
         dialog.show();
-        dialog.setOnDismissListener(dialogInterface -> createWindowOnDashboard(lineData, displayName));
+        if (addToDashboard) {
+            dialog.setOnDismissListener(dialogInterface -> createWindowOnDashboard(lineData, displayName));
+        }
     }
 
     private int offsetX = 0;
@@ -139,6 +141,10 @@ public class DashboardFragment extends Fragment {
         LineChart chart = new LineChart(getContext());
         chart.setData(lineData);
         chart.invalidate();
+        chart.setTouchEnabled(false);
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
+        chart.setPinchZoom(false);
 
         linearLayout.addView(title, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
@@ -152,14 +158,15 @@ public class DashboardFragment extends Fragment {
         frameParams.topMargin = offsetY;
         linearLayout.setLayoutParams(frameParams);
 
+        linearLayout.setOnClickListener(v -> showChartDialog(lineData, functionName, false));
+
         binding.dashboardLayout.addView(linearLayout);
         offsetX += 520;
         if (offsetX + 500 > binding.dashboardLayout.getWidth()) {
             offsetX = 0;
-            offsetY += 470;
+            offsetY += 500;
         }
 
-        makeDraggable(linearLayout);
     }
 
     private void makeDraggable(final View view) {
