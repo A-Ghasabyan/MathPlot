@@ -134,7 +134,6 @@ public class DashboardFragment extends Fragment {
         title.setText(functionName);
         title.setTextColor(Color.BLACK);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER);
 
         LineChart chart = new LineChart(getContext());

@@ -15,24 +15,20 @@ public class DashboardViewModel extends ViewModel {
     public LineData generateLineData(String formula, int color) {
         List<Entry> entries = new ArrayList<>();
 
-        float startX = -10;
-        float endX = 10;
+        float startX = -11;
+        float endX = 11;
 
-        if (formula.equals("f(n)=(1/√5)(((1+√5)/2)^n-((1-√5)/2)^n)")) {
-            for (int n = 0; n <= 20; n++) {
-                float y = evaluateFunction(formula, n);
-                entries.add(new Entry(n, y));
-            }
-        } else {
-            for (float x = startX; x <= endX; x += 0.1f) {
-                float y = evaluateFunction(formula, x);
-                entries.add(new Entry(x, y));
-            }
+        for (int x = (int) startX; x <= endX; x++) {
+            float y = evaluateFunction(formula, x);
+            entries.add(new Entry(x, y));
         }
 
         LineDataSet dataSet = new LineDataSet(entries, "y = " + formula);
         dataSet.setColor(color);
         dataSet.setLineWidth(2f);
+
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setCubicIntensity(0.2f);
 
         return new LineData(dataSet);
     }
