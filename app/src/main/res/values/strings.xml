@@ -4,12 +4,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_quiz">Quiz</string>
     <string-array name="functions_display_names">
-        <item>Parabola</item>
-        <item>Sine Wave</item>
+        <item>Exponential function</item>
+        <item>Gaussian function</item>
+        <item>Fibonacci sequence</item>
     </string-array>
     <string-array name="functions_formulas">
-        <item>x^2</item>
-        <item>sin(x)</item>
+        <item>f(x)=a*b^x</item>
+        <item>f(x)=a*e^-0.5(x-b/c)^2</item>
+        <item>f(n)=(1/√5)(((1+√5)/2)^n-((1-√5)/2)^n)</item>
     </string-array>
 
 </resources>

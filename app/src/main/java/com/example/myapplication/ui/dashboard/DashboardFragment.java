@@ -2,18 +2,21 @@ package com.example.myapplication.ui.dashboard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -123,27 +126,41 @@ public class DashboardFragment extends Fragment {
     private int offsetX = 0;
     private int offsetY = 0;
 
-    private void createWindowOnDashboard(LineData lineData, String function) {
-        FrameLayout frameLayout = new FrameLayout(getContext());
+    private void createWindowOnDashboard(LineData lineData, String functionName) {
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        TextView title = new TextView(getContext());
+        title.setText(functionName);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER);
+
         LineChart chart = new LineChart(getContext());
         chart.setData(lineData);
         chart.invalidate();
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(500, 400);
-        params.leftMargin = offsetX;
-        params.topMargin = offsetY;
-        frameLayout.setLayoutParams(params);
+        linearLayout.addView(title, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        linearLayout.addView(chart, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+        ));
 
-        frameLayout.addView(chart);
-        binding.dashboardLayout.addView(frameLayout);
+        FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(500, 450);
+        frameParams.leftMargin = offsetX;
+        frameParams.topMargin = offsetY;
+        linearLayout.setLayoutParams(frameParams);
 
+        binding.dashboardLayout.addView(linearLayout);
         offsetX += 520;
         if (offsetX + 500 > binding.dashboardLayout.getWidth()) {
             offsetX = 0;
-            offsetY += 420;
+            offsetY += 470;
         }
 
-        makeDraggable(frameLayout);
+        makeDraggable(linearLayout);
     }
 
     private void makeDraggable(final View view) {
