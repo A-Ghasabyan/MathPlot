@@ -169,33 +169,6 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    private void makeDraggable(final View view) {
-        view.setOnTouchListener(new View.OnTouchListener() {
-            float xDelta, yDelta;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (getContext() == null) return false;
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        xDelta = view.getX() - event.getRawX();
-                        yDelta = view.getY() - event.getRawY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        view.animate()
-                                .x(event.getRawX() + xDelta)
-                                .y(event.getRawY() + yDelta)
-                                .setDuration(0)
-                                .start();
-                        break;
-                    default:
-                        return false;
-                }
-                return true;
-            }
-        });
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
