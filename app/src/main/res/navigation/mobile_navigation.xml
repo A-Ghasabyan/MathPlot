@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.myapplication.ui.account.AccountFragment"
+        android:name="com.example.myapplication.ui.biorythms.BiorythmsFragment"
         android:label="@string/title_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_biorythms" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

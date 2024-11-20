@@ -25,7 +25,6 @@ public class DashboardViewModel extends ViewModel {
 
         LineDataSet dataSet = new LineDataSet(entries, "y = " + formula);
         dataSet.setColor(color);
-        dataSet.setLineWidth(2f);
 
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         dataSet.setCubicIntensity(0.2f);

@@ -6,4 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".ui.quiz.QuizFragment">
 
+    <!-- Start Page -->
+    <LinearLayout
+        android:id="@+id/start_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/start_quiz_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Take the Quiz" />
+    </LinearLayout>
+
+    <!-- Quiz Page -->
+    <LinearLayout
+        android:id="@+id/quiz_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Question"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/options_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <!-- Result Page -->
+    <LinearLayout
+        android:id="@+id/result_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/party_popper_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/party_popper"
+            android:contentDescription="Party Popper"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/result_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Results will be shown here"
+            android:textSize="18sp"
+            android:layout_margin="16dp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
