@@ -1,68 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.biorythms.BiorythmsFragment">
+    android:paddingBottom="20dp"> <!-- Increased padding at the bottom for more scroll space -->
 
-    <!-- EditText for Birth Year -->
-    <EditText
-        android:id="@+id/birthYearEditText"
-        android:layout_width="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+    <!-- ConstraintLayout as the child of ScrollView -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your birth year"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="number" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.biorythms.BiorythmsFragment">
 
-    <!-- EditText for Birth Month -->
-    <EditText
-        android:id="@+id/birthMonthEditText"
-        android:layout_width="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter your birth month"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/birthYearEditText"
-        android:inputType="number" />
+        <!-- EditText for Birth Year -->
+        <EditText
+            android:id="@+id/birthYearEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter your birth year"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginHorizontal="20dp" />
 
-    <!-- EditText for Birth Day -->
-    <EditText
-        android:id="@+id/birthDayEditText"
-        android:layout_width="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter your birth day"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/birthMonthEditText"
-        android:inputType="number" />
+        <!-- EditText for Birth Month -->
+        <EditText
+            android:id="@+id/birthMonthEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter your birth month"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthYearEditText"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
 
-    <!-- Button to plot the biorythms -->
-    <Button
-        android:id="@+id/plotButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Plot Biorythms"
-        app:layout_constraintTop_toBottomOf="@id/birthDayEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <!-- EditText for Birth Day -->
+        <EditText
+            android:id="@+id/birthDayEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter your birth day"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthMonthEditText"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
 
-    <!-- LineChart to display the biorythms -->
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/plotButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <!-- EditText for Current Year -->
+        <EditText
+            android:id="@+id/currentYearEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter current year"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthDayEditText"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- EditText for Current Month -->
+        <EditText
+            android:id="@+id/currentMonthEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter current month"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentYearEditText"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
+
+        <!-- EditText for Current Day -->
+        <EditText
+            android:id="@+id/currentDayEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter current day"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentMonthEditText"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp" />
+
+        <!-- Button to plot the biorythms -->
+        <Button
+            android:id="@+id/plotButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plot Biorythms"
+            app:layout_constraintTop_toBottomOf="@id/currentDayEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp" />
+
+        <!-- LineChart to display the biorythms -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/plotButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Empty View for additional scrolling space -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toBottomOf="@id/lineChart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/> <!-- Add more space as needed -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</android.widget.ScrollView>
