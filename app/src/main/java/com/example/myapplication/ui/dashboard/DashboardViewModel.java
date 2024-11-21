@@ -39,6 +39,9 @@ public class DashboardViewModel extends ViewModel {
                 float bExp = 2.0f;
                 return aExp * (float) Math.pow(bExp, x);
 
+            case "f(x)=cosh(x)": // Hyperbolic Cosine
+                return (float) Math.cosh(x);
+
             case "f(x)=a*e^-0.5(x-b/c)^2":
                 float aGauss = 1.0f;
                 float bGauss = 0.0f;
@@ -48,6 +51,45 @@ public class DashboardViewModel extends ViewModel {
             case "f(n)=(1/√5)(((1+√5)/2)^n-((1-√5)/2)^n)":
                 return (float) ((1 / Math.sqrt(5)) *
                         (Math.pow((1 + Math.sqrt(5)) / 2, x) - Math.pow((1 - Math.sqrt(5)) / 2, x)));
+
+            case "f(x)=(Vmax*x)/(Km + x)": // Michaelis-Menten function
+                if (x < 0) x = 0; // Ensure x is positive, or use a positive range for x
+                float Vmax = 10.0f; // Maximum reaction velocity
+                float Km = 5.0f;    // Michaelis constant
+                return (Vmax * x) / (Km + x);
+
+            case "f(x)=a*x^2 + b*x + c": // Parabola
+                float aParabola = 1.0f;
+                float bParabola = 0.0f;
+                float cParabola = 0.0f;
+                return aParabola * (x * x) + bParabola * x + cParabola;
+
+            case "f(x)=a*(x^2)/(x^2 + b^2)": // Bridge Load (simplified)
+                float aBridge = 1.0f;
+                float bBridge = 2.0f;
+                return aBridge * (x * x) / (x * x + bBridge * bBridge);
+
+            case "f(x)=A*sin(ωx + φ)": // Sine wave
+                float A = 1.0f; // Amplitude
+                float omega = 1.0f; // Angular frequency
+                float phi = 0.0f; // Phase shift
+                return A * (float) Math.sin(omega * x + phi);
+
+            case "f(x)=F/A": // Material Stress (σ = F / A) with varying Force
+                float k = 10.0f; // Constant factor for varying force
+                float force = k * x; // Force increases linearly with x
+                float area = 5.0f; // Cross-sectional area remains constant
+                return force / area;
+
+            case "f(x)=e^x": // Euler's Number (e^x)
+                return (float) Math.exp(x);
+
+            case "f(x)=a*x^3 + b*x^2 + c*x + d": // Cubic function
+                float aCubic = 1.0f;
+                float bCubic = 0.0f;
+                float cCubic = 0.0f;
+                float dCubic = 0.0f;
+                return aCubic * (x * x * x) + bCubic * (x * x) + cCubic * x + dCubic;
 
             default:
                 return 0;

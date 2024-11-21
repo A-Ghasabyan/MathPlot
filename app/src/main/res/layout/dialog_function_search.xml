@@ -12,9 +12,11 @@
         android:drawableStart="@drawable/baseline_search_24"
         android:inputType="text" />
 
+
     <ListView
         android:id="@+id/function_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:dividerHeight="1dp" />
+
 </LinearLayout>

@@ -5,13 +5,29 @@
     <string name="title_quiz">Quiz</string>
     <string-array name="functions_display_names">
         <item>Exponential function</item>
+        <item>Hyperbolic Cosine</item>
         <item>Gaussian function</item>
         <item>Fibonacci sequence</item>
+        <item>Michaelis-Menten function</item>
+        <item>Material Stress</item>
+        <item>Parabola function</item>
+        <item>Bridge Load Function</item>
+        <item>Sine wave</item>
+        <item>Eulers Number</item>
+        <item>Cubic function</item>
     </string-array>
     <string-array name="functions_formulas">
         <item>f(x)=a*b^x</item>
+        <item>f(x)=cosh(x)</item>
         <item>f(x)=a*e^-0.5(x-b/c)^2</item>
         <item>f(n)=(1/√5)(((1+√5)/2)^n-((1-√5)/2)^n)</item>
+        <item>f(x)=(Vmax*x)/(Km + x)</item>
+        <item>f(x)=F/A</item>
+        <item>f(x)=a*x^2 + b*x + c</item>
+        <item>f(x)=a*(x^2)/(x^2 + b^2)</item>
+        <item>f(x)=A*sin(ωx + φ)</item>
+        <item>f(x)=e^x</item>
+        <item>f(x)=a*x^3 + b*x^2 + c*x + d</item>
     </string-array>
 
 </resources>
